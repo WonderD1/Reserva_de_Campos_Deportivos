@@ -1,13 +1,5 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
+require_once '../config/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -15,21 +7,51 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
-require_once __DIR__ . '/../config/db.php';
-require_once __DIR__ . '/../controllers/AuthController.php';
+$data = json_decode(file_get_contents("php://input"));
 
-$database = new Database();
-$db = $database->getConnection();
+if (!empty($data->DNI) && !empty($data->Nombres) && !empty($data->Apellidos) && !empty($data->Correo) && !empty($data->ContrasenaHash)) {
+    try {
+        $checkQuery = "SELECT IdCliente FROM cliente WHERE Correo = :correo OR DNI = :dni";
+        $checkStmt = $pdo->prepare($checkQuery);
+        $checkStmt->execute([
+            ':correo' => $data->Correo,
+            ':dni' => $data->DNI
+        ]);
 
-$authController = new AuthController($db);
+        if ($checkStmt->rowCount() > 0) {
+            http_response_code(409);
+            echo json_encode(["error" => "El cliente con este DNI o Correo ya se encuentra registrado."]);
+            exit();
+        }
 
-$inputData = json_decode(file_get_contents("php://input"), true);
+        $passwordHash = password_hash($data->ContrasenaHash, PASSWORD_BCRYPT);
 
-if (!$inputData) {
+        $query = "INSERT INTO cliente (DNI, Nombres, Apellidos, Correo, Telefono, ContrasenaHash, PuntosFidelidad) VALUES (:dni, :nombres, :apellidos, :correo, :telefono, :pass, 0)";
+        $stmt = $pdo->prepare($query);
+
+        $telefono = isset($data->Telefono) ? $data->Telefono : '';
+
+        $stmt->execute([
+            ':dni' => $data->DNI,
+            ':nombres' => $data->Nombres,
+            ':apellidos' => $data->Apellidos,
+            ':correo' => $data->Correo,
+            ':telefono' => $telefono,
+            ':pass' => $passwordHash
+        ]);
+
+        http_response_code(201);
+        echo json_encode([
+            "message" => "Cliente registrado exitosamente.",
+            "idCliente" => $pdo->lastInsertId()
+        ]);
+
+    } catch (PDOException $e) {
+        http_response_code(500);
+        echo json_encode(["error" => "Error en la base de datos: " . $e->getMessage()]);
+    }
+} else {
     http_response_code(400);
-    echo json_encode(["error" => "Datos JSON inválidos o vacíos"]);
-    exit();
+    echo json_encode(["error" => "Datos incompletos (DNI, Nombres, Apellidos, Correo y ContrasenaHash son obligatorios)."]);
 }
-
-$authController->registerCliente($inputData);
 ?>

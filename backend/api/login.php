@@ -1,13 +1,5 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
+require_once '../config/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -15,21 +7,55 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
-require_once __DIR__ . '/../config/db.php';
-require_once __DIR__ . '/../controllers/AuthController.php';
+$data = json_decode(file_get_contents("php://input"));
 
-$database = new Database();
-$db = $database->getConnection();
+$correo = $data->Correo ?? null;
+$contrasenaHash = $data->ContrasenaHash ?? ($data->Contrasena ?? null);
 
-$authController = new AuthController($db);
+if (!empty($correo) && !empty($contrasenaHash)) {
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM cliente WHERE Correo = :correo");
+        $stmt->execute([':correo' => $correo]);
 
-$inputData = json_decode(file_get_contents("php://input"), true);
+        if ($stmt->rowCount() === 0) {
+            http_response_code(401);
+            echo json_encode(["error" => "Credenciales inválidas"]);
+            exit();
+        }
 
-if (!$inputData) {
+        $usuario = $stmt->fetch();
+
+        $esValido = password_verify($contrasenaHash, $usuario['ContrasenaHash']) || ($contrasenaHash === $usuario['ContrasenaHash']);
+
+        if (!$esValido) {
+            http_response_code(401);
+            echo json_encode(["error" => "Credenciales inválidas"]);
+            exit();
+        }
+
+        // Return user data without exposing password hash
+        unset($usuario['ContrasenaHash']);
+
+        http_response_code(200);
+        echo json_encode([
+            "message" => "Inicio de sesión exitoso",
+            "cliente" => [
+                "idCliente" => $usuario['IdCliente'],
+                "DNI" => $usuario['DNI'],
+                "Nombres" => $usuario['Nombres'],
+                "Apellidos" => $usuario['Apellidos'],
+                "Correo" => $usuario['Correo'],
+                "Telefono" => $usuario['Telefono'],
+                "PuntosFidelidad" => $usuario['PuntosFidelidad']
+            ]
+        ]);
+
+    } catch (PDOException $e) {
+        http_response_code(500);
+        echo json_encode(["error" => "Error en la base de datos: " . $e->getMessage()]);
+    }
+} else {
     http_response_code(400);
-    echo json_encode(["error" => "Datos JSON inválidos o vacíos"]);
-    exit();
+    echo json_encode(["error" => "Correo y ContrasenaHash son obligatorios."]);
 }
-
-$authController->loginCliente($inputData);
 ?>
