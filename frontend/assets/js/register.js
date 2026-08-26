@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
         registerBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Registrando...';
 
         try {
-            const response = await fetch('../../backend/api/register.php', {
+            const response = await fetch('http://localhost:8000/api/register.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -105,8 +105,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 registerBtn.disabled = false;
                 registerBtn.innerHTML = '<span>Crear cuenta</span> <i class="fa-solid fa-arrow-right"></i>';
             }
-        } catch (error) {
-            console.error('Error:', error);
+        } catch (err) {
+            console.error(err);
             showAlert('Error de conexión con el servidor.');
             registerBtn.disabled = false;
             registerBtn.innerHTML = '<span>Crear cuenta</span> <i class="fa-solid fa-arrow-right"></i>';

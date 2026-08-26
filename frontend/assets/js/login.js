@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loginBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Iniciando sesión...';
 
         try {
-            const response = await fetch('../../backend/api/login.php', {
+            const response = await fetch('http://localhost:8000/api/login.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -81,8 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 loginBtn.disabled = false;
                 loginBtn.innerHTML = '<span>Iniciar sesión</span> <i class="fa-solid fa-arrow-right"></i>';
             }
-        } catch (error) {
-            console.error('Error:', error);
+        } catch (err) {
+            console.error(err);
             showAlert('Error de conexión con el servidor. Inténtalo de nuevo.');
             loginBtn.disabled = false;
             loginBtn.innerHTML = '<span>Iniciar sesión</span> <i class="fa-solid fa-arrow-right"></i>';

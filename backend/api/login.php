@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: application/json');
 require_once '../config/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -7,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
-$data = json_decode(file_get_contents("php://input"));
+$data = json_decode(file_get_contents('php://input'));
 
 $correo = $data->Correo ?? null;
 $contrasenaHash = $data->ContrasenaHash ?? ($data->Contrasena ?? null);
@@ -52,7 +53,7 @@ if (!empty($correo) && !empty($contrasenaHash)) {
 
     } catch (PDOException $e) {
         http_response_code(500);
-        echo json_encode(["error" => "Error en la base de datos: " . $e->getMessage()]);
+        echo json_encode(["error" => $e->getMessage()]);
     }
 } else {
     http_response_code(400);
