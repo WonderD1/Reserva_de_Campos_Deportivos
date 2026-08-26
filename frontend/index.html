@@ -6,6 +6,11 @@
     <title>Inicio - Tu Cancha Perú (El Papu)</title>
     <link rel="stylesheet" href="./assets/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        // Prevent flash of wrong theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    </script>
 </head>
 <body>
     <!-- Header Navbar -->
@@ -26,7 +31,7 @@
                 <button id="themeToggleBtn" class="theme-toggle" title="Cambiar tema">
                     <i class="fa-solid fa-moon" id="themeIcon"></i>
                 </button>
-                <div class="user-profile-dropdown" id="userProfileArea" onclick="window.location.href='./auth/login.html'" style="cursor: pointer;" title="Iniciar sesión">
+                <div class="user-profile-dropdown" id="userProfileArea" onclick="window.location.href='./cliente/login.html'" style="cursor: pointer;" title="Iniciar sesión">
                     <div class="user-avatar" id="userAvatar">EP</div>
                     <span class="user-name" id="userName">Iniciar Sesión</span>
                 </div>
@@ -223,7 +228,7 @@
             <span class="community-pill" style="margin-bottom: 16px;">Club El Papu</span>
             <h2>Juega más. Gana más.</h2>
             <p>Cada partido suma. Regístrate, acumula puntos y desbloquea beneficios creados para quienes viven el deporte.</p>
-            <a href="auth/register.html" class="btn-primary" style="background-color: var(--secondary); color: #000; width: fit-content; margin-top: 24px;">
+            <a href="cliente/register.html" class="btn-primary" style="background-color: var(--secondary); color: #000; width: fit-content; margin-top: 24px;">
                 <span>Conoce nuestros beneficios</span>
                 <i class="fa-solid fa-arrow-right"></i>
             </a>
@@ -265,13 +270,22 @@
             const themeIcon = document.getElementById('themeIcon');
             const htmlElement = document.documentElement;
 
+            // Sync icon with current theme
+            if (htmlElement.getAttribute('data-theme') === 'dark') {
+                themeIcon.className = 'fa-solid fa-sun';
+            } else {
+                themeIcon.className = 'fa-solid fa-moon';
+            }
+
             themeToggleBtn.addEventListener('click', () => {
                 const currentTheme = htmlElement.getAttribute('data-theme');
                 if (currentTheme === 'light') {
                     htmlElement.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
                     themeIcon.className = 'fa-solid fa-sun';
                 } else {
                     htmlElement.setAttribute('data-theme', 'light');
+                    localStorage.setItem('theme', 'light');
                     themeIcon.className = 'fa-solid fa-moon';
                 }
             });
@@ -285,7 +299,6 @@
                     const initials = cliente.nombres.charAt(0) + (cliente.apellidos ? cliente.apellidos.charAt(0) : '');
                     document.getElementById('userAvatar').textContent = initials.toUpperCase();
                     
-                    // Change user profile area click to account menu or logout
                     const userProfileArea = document.getElementById('userProfileArea');
                     userProfileArea.onclick = () => {
                         if(confirm('¿Deseas cerrar sesión?')) {
@@ -297,7 +310,7 @@
                 } catch(e) {}
             } else {
                 document.getElementById('userProfileArea').onclick = () => {
-                    window.location.href = './auth/login.html';
+                    window.location.href = './cliente/login.html';
                 };
             }
 

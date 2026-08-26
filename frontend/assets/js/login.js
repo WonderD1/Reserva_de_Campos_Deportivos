@@ -10,14 +10,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeIcon = document.getElementById('themeIcon');
     const htmlElement = document.documentElement;
 
-    // Theme Toggle
+    // Theme Toggle & Persistence Sync
+    if (htmlElement.getAttribute('data-theme') === 'dark') {
+        themeIcon.className = 'fa-solid fa-sun';
+    } else {
+        themeIcon.className = 'fa-solid fa-moon';
+    }
+
     themeToggleBtn.addEventListener('click', () => {
         const currentTheme = htmlElement.getAttribute('data-theme');
         if (currentTheme === 'light') {
             htmlElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
             themeIcon.className = 'fa-solid fa-sun';
         } else {
             htmlElement.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light');
             themeIcon.className = 'fa-solid fa-moon';
         }
     });
