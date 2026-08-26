@@ -15,8 +15,14 @@ CREATE TABLE Cliente (
     Apellidos VARCHAR(30) NOT NULL,
     Correo VARCHAR(50) NOT NULL UNIQUE,
     Telefono VARCHAR(9) NOT NULL,
-    ContrasenaHash VARCHAR(50) NOT NULL,
+    ContrasenaHash VARCHAR(255) NOT NULL,
     PuntosFidelidad INT NOT NULL DEFAULT 0,
+
+    CONSTRAINT CK_Cliente_DNI 
+        CHECK (DNI REGEXP '^[0-9]{8}$'),
+
+    CONSTRAINT CK_Cliente_Telefono 
+        CHECK (Telefono REGEXP '^9[0-9]{8}$'),
 
     CONSTRAINT CK_Cliente_Puntos
         CHECK (PuntosFidelidad >= 0)
@@ -38,10 +44,16 @@ CREATE TABLE Trabajador (
     DNI CHAR(8) NOT NULL UNIQUE,
     Nombres VARCHAR(30) NOT NULL,
     Apellidos VARCHAR(30) NOT NULL,
-    PinHash VARCHAR(4) NOT NULL,
+    PinHash VARCHAR(255) NOT NULL,
     Rol VARCHAR(25) NOT NULL,
     Correo VARCHAR(50) NOT NULL,
     Telefono VARCHAR(9) NOT NULL,
+
+    CONSTRAINT CK_Trabajador_DNI 
+        CHECK (DNI REGEXP '^[0-9]{8}$'),
+
+    CONSTRAINT CK_Trabajador_Telefono 
+        CHECK (Telefono REGEXP '^9[0-9]{8}$'),
 
     CONSTRAINT CK_Trabajador_Rol
         CHECK (Rol IN (
@@ -295,24 +307,3 @@ CREATE TABLE MovimientoCaja (
     CONSTRAINT CK_Movimiento_Origen
         CHECK (IdReserva IS NOT NULL OR IdVenta IS NOT NULL OR TipoMovimiento IN ('Apertura', 'Cierre', 'Gasto'))
 );
-
-
-
-SELECT 
-    t.Nombres AS Cajero,
-    -- Suma el monto con el que abrió la caja
-    COALESCE(SUM(CASE WHEN m.TipoMovimiento = 'Apertura' THEN m.Importe ELSE 0 END), 0) AS MontoInicial,
-    -- Suma todos los ingresos del turno
-    COALESCE(SUM(CASE WHEN m.TipoMovimiento = 'Ingreso' THEN m.Importe ELSE 0 END), 0) AS TotalIngresos,
-    -- Suma todos los gastos del turno
-    COALESCE(SUM(CASE WHEN m.TipoMovimiento = 'Gasto' THEN m.Importe ELSE 0 END), 0) AS TotalGastos,
-    -- Cálculo matemático final: (Apertura + Ingresos - Gastos)
-    (
-        COALESCE(SUM(CASE WHEN m.TipoMovimiento = 'Apertura' THEN m.Importe ELSE 0 END), 0) +
-        COALESCE(SUM(CASE WHEN m.TipoMovimiento = 'Ingreso' THEN m.Importe ELSE 0 END), 0) -
-        COALESCE(SUM(CASE WHEN m.TipoMovimiento = 'Gasto' THEN m.Importe ELSE 0 END), 0)
-    ) AS SaldoFinalEsperadoEnCaja
-FROM MovimientoCaja m
-JOIN Trabajador t ON m.IdTrabajador = t.IdTrabajador
-WHERE m.IdTrabajador = 2 -- ID del cajero logueado actualmente
-  AND DATE(m.FechaMovimiento) = CURDATE(); -- Filtra los movimientos del día actual (el turno diario)
