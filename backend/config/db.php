@@ -8,10 +8,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-$host = '127.0.0.1';
+$host = '192.168.18.14';
 $db   = 'tu_cancha_pe';
-$user = 'root';
-$pass = '';
+$user = 'remoto';
+$pass = 'juanperez';
 $port = '3306';
 
 try {
