@@ -15,7 +15,7 @@ CREATE TABLE Cliente (
     Apellidos VARCHAR(30) NOT NULL,
     Correo VARCHAR(50) NOT NULL UNIQUE,
     Telefono VARCHAR(9) NOT NULL,
-    ContrasenaHash VARCHAR(50) NOT NULL,
+    ContrasenaHash VARCHAR(255) NOT NULL,
     PuntosFidelidad INT NOT NULL DEFAULT 0,
 
     CONSTRAINT CK_Cliente_Puntos
