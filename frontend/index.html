@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - Tu Cancha Perú (El Papu)</title>
+    <link rel="stylesheet" href="./assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header Navbar -->
+    <header class="main-header">
+        <div class="header-container">
+            <a href="index.html" class="logo-area">
+                <span class="brand-badge">EP</span>
+                <span class="brand-title">EL PAPU</span>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html" class="active">Inicio</a>
+                <a href="#canchas">Canchas</a>
+                <a href="#promos">Promociones</a>
+                <a href="#eventos">Eventos</a>
+                <a href="#ubicacion">Ubicación</a>
+            </nav>
+            <div class="header-actions">
+                <button id="themeToggleBtn" class="theme-toggle" title="Cambiar tema">
+                    <i class="fa-solid fa-moon" id="themeIcon"></i>
+                </button>
+                <div class="user-profile-dropdown" id="userProfileArea" onclick="window.location.href='./auth/login.html'" style="cursor: pointer;" title="Iniciar sesión">
+                    <div class="user-avatar" id="userAvatar">EP</div>
+                    <span class="user-name" id="userName">Iniciar Sesión</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Home Section -->
+    <section class="home-hero">
+        <div class="home-hero-container">
+            <div class="welcome-badge">
+                <i class="fa-solid fa-trophy"></i> Bienvenido, <span id="heroUserName">Deportista</span> • 20 Canchas
+            </div>
+            <h1>Tu cancha.<br>Tu partido.<br>Tu momento.</h1>
+            <p>Reserva tu cancha deportiva de forma rápida y sencilla con El Papu.</p>
+            <div class="hero-buttons">
+                <a href="#canchas" class="btn-primary" style="width: auto; padding: 14px 28px;">
+                    <span>Reservar una cancha</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="#canchas" class="btn-secondary-outline">Ver canchas</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Search Widget -->
+    <div class="search-widget-container">
+        <div class="search-widget">
+            <div class="search-title">¿Qué cancha estás buscando?</div>
+            <div class="search-grid">
+                <div class="search-field">
+                    <label><i class="fa-solid fa-futbol"></i> Deporte</label>
+                    <select id="searchDeporte">
+                        <option value="Fútbol">Fútbol</option>
+                        <option value="Fútbol 7">Fútbol 7</option>
+                        <option value="Fútbol 11">Fútbol 11</option>
+                        <option value="Básquet">Básquet</option>
+                        <option value="Vóley">Vóley</option>
+                    </select>
+                </div>
+                <div class="search-field">
+                    <label><i class="fa-regular fa-calendar"></i> Fecha</label>
+                    <input type="date" id="searchFecha">
+                </div>
+                <div class="search-field">
+                    <label><i class="fa-regular fa-clock"></i> Horario</label>
+                    <select id="searchHorario">
+                        <option value="Mañana">Mañana (08:00 - 12:00)</option>
+                        <option value="Tarde">Tarde (12:00 - 18:00)</option>
+                        <option value="Noche">Noche (18:00 - 23:00)</option>
+                    </select>
+                </div>
+                <button type="button" class="btn-primary" style="height: 100%; border-radius: 10px; padding: 0 28px;" onclick="alert('Buscando disponibilidad de canchas...')">
+                    <i class="fa-solid fa-magnifying-glass"></i> Buscar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Elige tu deporte Section -->
+    <section class="section-container">
+        <div class="section-header-tag">Para cada tipo de jugador</div>
+        <div class="section-title-row">
+            <h2>Elige tu deporte</h2>
+            <span style="color: var(--text-muted); font-size: 15px;">Encuentra el espacio perfecto, arma tu equipo y empieza a jugar.</span>
+        </div>
+
+        <div class="sports-grid">
+            <a href="#canchas" class="sport-card" style="background-image: url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=600');">
+                <h3>Fútbol</h3>
+                <p>Partidos intensos en césped premium.</p>
+                <span class="sport-link-text">Ver canchas <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+            <a href="#canchas" class="sport-card" style="background-image: url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&q=80&w=600');">
+                <h3>Fútbol 7</h3>
+                <p>La medida ideal para tu grupo.</p>
+                <span class="sport-link-text">Ver canchas <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+            <a href="#canchas" class="sport-card" style="background-image: url('https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&q=80&w=600');">
+                <h3>Fútbol 11</h3>
+                <p>La experiencia de cancha completa.</p>
+                <span class="sport-link-text">Ver canchas <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+            <a href="#canchas" class="sport-card" style="background-image: url('https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&q=80&w=600');">
+                <h3>Básquet</h3>
+                <p>Aros, tablero y pura competencia.</p>
+                <span class="sport-link-text">Ver canchas <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+            <a href="#canchas" class="sport-card" style="background-image: url('https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&q=80&w=600');">
+                <h3>Vóley</h3>
+                <p>Arena y cancha para tu mejor set.</p>
+                <span class="sport-link-text">Ver canchas <i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Nuestras Canchas Section -->
+    <section class="section-container" id="canchas">
+        <div class="section-header-tag">20 canchas disponibles</div>
+        <div class="section-title-row">
+            <h2>Nuestras canchas</h2>
+            <a href="#" class="view-all-link">Explorar las 20 canchas <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <div class="canchas-grid">
+            <!-- Cancha 1 -->
+            <div class="cancha-card">
+                <div class="cancha-img-wrapper" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=600');">
+                    <span class="status-badge">Disponible</span>
+                    <span class="price-tag">S/ 80 / hora</span>
+                </div>
+                <div class="cancha-details">
+                    <h3>Cancha El Papu #01</h3>
+                    <div class="cancha-meta-list">
+                        <div><i class="fa-solid fa-futbol"></i> Fútbol 7</div>
+                        <div><i class="fa-solid fa-users"></i> Hasta 14 jugadores</div>
+                        <div><i class="fa-solid fa-location-dot"></i> Sede principal</div>
+                    </div>
+                    <button class="btn-primary" style="width: 100%;" onclick="alert('Reservando Cancha #01...')">
+                        <span>Ver disponibilidad</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Cancha 2 -->
+            <div class="cancha-card">
+                <div class="cancha-img-wrapper" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&q=80&w=600');">
+                    <span class="status-badge">Disponible</span>
+                    <span class="price-tag">S/ 140 / hora</span>
+                </div>
+                <div class="cancha-details">
+                    <h3>Cancha El Papu #04</h3>
+                    <div class="cancha-meta-list">
+                        <div><i class="fa-solid fa-futbol"></i> Fútbol 11</div>
+                        <div><i class="fa-solid fa-users"></i> Hasta 22 jugadores</div>
+                        <div><i class="fa-solid fa-location-dot"></i> Sede principal</div>
+                    </div>
+                    <button class="btn-primary" style="width: 100%;" onclick="alert('Reservando Cancha #04...')">
+                        <span>Ver disponibilidad</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Cancha 3 -->
+            <div class="cancha-card">
+                <div class="cancha-img-wrapper" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&q=80&w=600');">
+                    <span class="status-badge">Disponible</span>
+                    <span class="price-tag">S/ 65 / hora</span>
+                </div>
+                <div class="cancha-details">
+                    <h3>Cancha El Papu #12</h3>
+                    <div class="cancha-meta-list">
+                        <div><i class="fa-solid fa-basketball"></i> Básquet</div>
+                        <div><i class="fa-solid fa-users"></i> Hasta 10 jugadores</div>
+                        <div><i class="fa-solid fa-location-dot"></i> Sede principal</div>
+                    </div>
+                    <button class="btn-primary" style="width: 100%;" onclick="alert('Reservando Cancha #12...')">
+                        <span>Ver disponibilidad</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Promociones y Beneficios -->
+    <section class="section-container" id="promos">
+        <div class="section-header-tag">Aprovecha y juega más</div>
+        <div class="section-title-row">
+            <h2>Promociones y beneficios</h2>
+        </div>
+
+        <div class="promos-grid">
+            <div class="promo-yellow-card">
+                <div>
+                    <span class="brand-badge" style="background-color: #0f172a; color: white; margin-bottom: 16px; display: inline-block;">PROMO ESPECIAL</span>
+                    <h2>20% OFF</h2>
+                    <p>Reserva de lunes a jueves. Más cancha, menos excusas. Válido en horarios seleccionados.</p>
+                </div>
+                <a href="#canchas" class="btn-dark">Reservar ahora</a>
+            </div>
+
+            <div class="promo-image-card" style="background-image: url('https://images.unsplash.com/photo-1526232761682-d26e03ac148e?auto=format&fit=crop&q=80&w=600');">
+                <span class="community-pill" style="margin-bottom: 12px; width: fit-content;">Promo Grupal</span>
+                <h3 style="font-size: 22px; font-weight: 800; margin-bottom: 8px;">Juega con tus amigos. Gana como equipo.</h3>
+                <p style="font-size: 13px; color: #cbd5e1; margin-bottom: 16px;">Reserva para tu grupo y obtén un descuento especial.</p>
+                <a href="#canchas" class="btn-secondary-outline" style="padding: 8px 16px; font-size: 13px; width: fit-content;">Ver promoción</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Club El Papu Banner -->
+    <div class="club-banner" id="eventos">
+        <div class="club-banner-left">
+            <span class="community-pill" style="margin-bottom: 16px;">Club El Papu</span>
+            <h2>Juega más. Gana más.</h2>
+            <p>Cada partido suma. Regístrate, acumula puntos y desbloquea beneficios creados para quienes viven el deporte.</p>
+            <a href="auth/register.html" class="btn-primary" style="background-color: var(--secondary); color: #000; width: fit-content; margin-top: 24px;">
+                <span>Conoce nuestros beneficios</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+        <div class="club-banner-right">
+            <div class="club-feature-pill">
+                <i class="fa-solid fa-star"></i> Acumula puntos con cada reserva.
+            </div>
+            <div class="club-feature-pill">
+                <i class="fa-solid fa-gift"></i> Canjea descuentos y premios exclusivos.
+            </div>
+            <div class="club-feature-pill">
+                <i class="fa-solid fa-bolt"></i> Accede a promos antes que nadie.
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="background-color: var(--card-bg); border-top: 1px solid var(--border-color); padding: 40px 24px; text-align: center; color: var(--text-muted); font-size: 14px; margin-top: 80px;" id="ubicacion">
+        <div style="max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="brand-badge">EP</span>
+                <span style="font-weight: 700; color: var(--text-main);">Tu Cancha Perú - El Papu</span>
+            </div>
+            <div>
+                &copy; 2026 Tu Cancha Perú. Todos los derechos reservados.
+            </div>
+            <div style="display: flex; gap: 20px;">
+                <a href="#" style="color: var(--text-muted); text-decoration: none;">Términos</a>
+                <a href="#" style="color: var(--text-muted); text-decoration: none;">Privacidad</a>
+                <a href="#" style="color: var(--text-muted); text-decoration: none;">Soporte</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggleBtn = document.getElementById('themeToggleBtn');
+            const themeIcon = document.getElementById('themeIcon');
+            const htmlElement = document.documentElement;
+
+            themeToggleBtn.addEventListener('click', () => {
+                const currentTheme = htmlElement.getAttribute('data-theme');
+                if (currentTheme === 'light') {
+                    htmlElement.setAttribute('data-theme', 'dark');
+                    themeIcon.className = 'fa-solid fa-sun';
+                } else {
+                    htmlElement.setAttribute('data-theme', 'light');
+                    themeIcon.className = 'fa-solid fa-moon';
+                }
+            });
+
+            const clientData = localStorage.getItem('cliente');
+            if (clientData) {
+                try {
+                    const cliente = JSON.parse(clientData);
+                    document.getElementById('userName').textContent = cliente.nombres + ' ' + cliente.apellidos;
+                    document.getElementById('heroUserName').textContent = cliente.nombres;
+                    const initials = cliente.nombres.charAt(0) + (cliente.apellidos ? cliente.apellidos.charAt(0) : '');
+                    document.getElementById('userAvatar').textContent = initials.toUpperCase();
+                    
+                    // Change user profile area click to account menu or logout
+                    const userProfileArea = document.getElementById('userProfileArea');
+                    userProfileArea.onclick = () => {
+                        if(confirm('¿Deseas cerrar sesión?')) {
+                            localStorage.removeItem('cliente');
+                            window.location.reload();
+                        }
+                    };
+                    userProfileArea.title = 'Sesión activa (Clic para cerrar sesión)';
+                } catch(e) {}
+            } else {
+                document.getElementById('userProfileArea').onclick = () => {
+                    window.location.href = './auth/login.html';
+                };
+            }
+
+            const today = new Date().toISOString().split('T')[0];
+            const searchFecha = document.getElementById('searchFecha');
+            if (searchFecha) {
+                searchFecha.value = today;
+            }
+        });
+    </script>
+</body>
+</html>

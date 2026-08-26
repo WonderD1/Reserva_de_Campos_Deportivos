@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Cuenta - Tu Cancha Perú</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="split-container">
+        <!-- Left Hero Banner -->
+        <div class="hero-side">
+            <div class="hero-header">
+                <span class="brand-badge">EP</span>
+                <span class="brand-title">EL PAPU</span>
+            </div>
+            <div class="hero-content">
+                <div class="community-pill" style="background-color: var(--secondary);">
+                    <i class="fa-solid fa-user-plus"></i> Regístrate en El Papu
+                </div>
+                <h1>Únete al equipo. Empieza a jugar.</h1>
+                <p>Crea tu cuenta y reserva tu próxima cancha en minutos.</p>
+            </div>
+            <div class="hero-footer-info" style="font-size: 13px; color: #94a3b8;">
+                &copy; 2026 Tu Cancha Perú - El Papu. Todos los derechos reservados.
+            </div>
+        </div>
+
+        <!-- Right Form Side -->
+        <div class="form-side">
+            <div class="form-header-nav">
+                <a href="login.html" class="back-link">
+                    <i class="fa-solid fa-arrow-left"></i> Volver al inicio
+                </a>
+                <button id="themeToggleBtn" class="theme-toggle" title="Cambiar tema">
+                    <i class="fa-solid fa-moon" id="themeIcon"></i>
+                </button>
+            </div>
+
+            <div class="form-wrapper">
+                <div class="form-title-area">
+                    <h2>Crea tu cuenta</h2>
+                    <p>Completa tus datos para empezar a reservar.</p>
+                </div>
+
+                <div id="alertBox" class="alert"></div>
+
+                <form id="registerForm">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div class="input-group">
+                            <label for="nombres">Nombres</label>
+                            <div class="input-wrapper">
+                                <i class="fa-regular fa-user"></i>
+                                <input type="text" id="nombres" name="Nombres" placeholder="Tus nombres" required>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="apellidos">Apellidos</label>
+                            <div class="input-wrapper">
+                                <i class="fa-regular fa-user"></i>
+                                <input type="text" id="apellidos" name="Apellidos" placeholder="Tus apellidos" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div class="input-group">
+                            <label for="dni">DNI</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-id-card"></i>
+                                <input type="text" id="dni" name="DNI" placeholder="00000000" maxlength="8" required>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="telefono">Teléfono</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-phone"></i>
+                                <input type="text" id="telefono" name="Telefono" placeholder="999999999" maxlength="9" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="correo">Correo electrónico</label>
+                        <div class="input-wrapper">
+                            <i class="fa-regular fa-envelope"></i>
+                            <input type="email" id="correo" name="Correo" placeholder="tu@correo.com" required>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="contrasena">Contraseña</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock"></i>
+                            <input type="password" id="contrasena" name="Contrasena" placeholder="••••••••" required>
+                            <button type="button" id="togglePassword" class="password-toggle">
+                                <i class="fa-regular fa-eye" id="eyeIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="remember-me" style="font-size: 13px;">
+                            <input type="checkbox" id="termsCheck" required> Acepto los términos y condiciones
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-primary" id="registerBtn">
+                        <span>Crear cuenta</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </form>
+
+                <div class="form-footer-text">
+                    ¿Ya tienes una cuenta? <a href="login.html">Inicia sesión</a>
+                </div>
+            </div>
+
+            <div class="form-header-nav" style="visibility: hidden;"></div>
+        </div>
+    </div>
+
+    <script src="../assets/js/register.js"></script>
+</body>
+</html>
