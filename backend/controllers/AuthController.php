@@ -13,9 +13,9 @@ class AuthController {
         $apellidos = $data['Apellidos'] ?? null;
         $correo = $data['Correo'] ?? null;
         $telefono = $data['Telefono'] ?? null;
-        $password = $data['ContrasenaHash'] ?? ($data['Contrasena'] ?? null);
+        $contrasenaInput = $data['ContrasenaHash'] ?? ($data['Contrasena'] ?? null);
 
-        if (!$dni || !$nombres || !$apellidos || !$correo || !$telefono || !$password) {
+        if (!$dni || !$nombres || !$apellidos || !$correo || !$telefono || !$contrasenaInput) {
             http_response_code(400);
             echo json_encode(["error" => "Todos los campos son obligatorios (DNI, Nombres, Apellidos, Correo, Telefono, ContrasenaHash)."]);
             return;
@@ -34,7 +34,8 @@ class AuthController {
         }
 
         try {
-            $stmt = $this->db->prepare("SELECT IdCliente FROM cliente WHERE DNI = ? OR Correo = ?");
+            // Check if client exists
+            $stmt = $this->db->prepare("SELECT IdCliente FROM Cliente WHERE DNI = ? OR Correo = ?");
             $stmt->execute([$dni, $correo]);
             if ($stmt->rowCount() > 0) {
                 http_response_code(409);
@@ -42,9 +43,11 @@ class AuthController {
                 return;
             }
 
-            $contrasenaHash = password_hash($password, PASSWORD_BCRYPT);
+            // Hash password using password_hash
+            $contrasenaHash = password_hash($contrasenaInput, PASSWORD_BCRYPT);
 
-            $insert = $this->db->prepare("INSERT INTO cliente (DNI, Nombres, Apellidos, Correo, Telefono, ContrasenaHash, PuntosFidelidad) VALUES (?, ?, ?, ?, ?, ?, 0)");
+            // Insert client
+            $insert = $this->db->prepare("INSERT INTO Cliente (DNI, Nombres, Apellidos, Correo, Telefono, ContrasenaHash, PuntosFidelidad) VALUES (?, ?, ?, ?, ?, ?, 0)");
             $insert->execute([$dni, $nombres, $apellidos, $correo, $telefono, $contrasenaHash]);
 
             $idCliente = $this->db->lastInsertId();
@@ -70,16 +73,16 @@ class AuthController {
 
     public function loginCliente($data) {
         $correo = $data['Correo'] ?? null;
-        $password = $data['ContrasenaHash'] ?? ($data['Contrasena'] ?? null);
+        $contrasenaInput = $data['ContrasenaHash'] ?? ($data['Contrasena'] ?? null);
 
-        if (!$correo || !$password) {
+        if (!$correo || !$contrasenaInput) {
             http_response_code(400);
             echo json_encode(["error" => "Correo y contraseña son obligatorios."]);
             return;
         }
 
         try {
-            $stmt = $this->db->prepare("SELECT * FROM cliente WHERE Correo = ?");
+            $stmt = $this->db->prepare("SELECT * FROM Cliente WHERE Correo = ?");
             $stmt->execute([$correo]);
             
             if ($stmt->rowCount() === 0) {
@@ -91,7 +94,13 @@ class AuthController {
             $cliente = $stmt->fetch();
             $hashGuardado = $cliente['ContrasenaHash'];
 
-            $esValido = password_verify($password, $hashGuardado) || ($password === $hashGuardado);
+            // Verify password using password_verify or direct comparison if plain
+            $esValido = false;
+            if (password_get_info($hashGuardado)['algo'] !== 0) {
+                $esValido = password_verify($contrasenaInput, $hashGuardado);
+            } else {
+                $esValido = ($contrasenaInput === $hashGuardado);
+            }
 
             if (!$esValido) {
                 http_response_code(401);
