@@ -19,7 +19,7 @@ if (!empty($correo) && !empty($contrasenaHash)) {
 
         if ($stmt->rowCount() === 0) {
             http_response_code(401);
-            echo json_encode(["error" => "Depuración: Correo no encontrado en la base de datos"]);
+            echo json_encode(["error" => "Credenciales inválidas"]);
             exit();
         }
 
@@ -29,14 +29,7 @@ if (!empty($correo) && !empty($contrasenaHash)) {
 
         if (!$esValido) {
             http_response_code(401);
-            echo json_encode([
-                "error" => "Depuración: Contrasena incorrecta",
-                "detalles" => [
-                    "pass_recibida" => $contrasenaHash,
-                    "hash_en_bd" => $usuario['ContrasenaHash'],
-                    "longitud_hash" => strlen($usuario['ContrasenaHash'])
-                ]
-            ]);
+            echo json_encode(["error" => "Credenciales inválidas"]);
             exit();
         }
 
